@@ -11,3 +11,5 @@ Members: Huiyan Zhao, Chen Zhou, Reuben Jose
 ## Do you have any questions of your own?
 
 What do you think are essential elements to include in a short Ren'Py story for it to be engaging?
+
+What do we need to have in the story to guarantee that we can skip the final? 
