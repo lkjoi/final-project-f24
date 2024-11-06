@@ -6,7 +6,7 @@ A Ren'Py story
 
 ## If you plan to collaborate with one or two classmates, what are their names?
 
-Chen Zhou, Reuben Jose
+Members: Huiyan Zhao, Chen Zhou, Reuben Jose
 
 ## Do you have any questions of your own?
 
