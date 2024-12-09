@@ -1,0 +1,167 @@
+# -*- coding: utf-8 -*-
+
+# Define characters
+define s = Character("Steve Irwin", color="#00ff00")
+define n = Character("Narrator", color="#aaaaaa")
+define p = Character("[player_name]", color="#ffffff")
+
+# Define images
+image Forest = "images/forest.png"
+image PassingRiver = "images/passing_river.png"
+image Feather = "images/feather.png"
+image Passing_Bridge = "images/passing_bridge.png"
+image Anaconda = "images/anaconda.png"
+image RainbowBird = "images/rainbow_bird.png"
+image Explorer = "images/explorer.png"  # Assuming you have an explorer image
+image Knife = "images/knife.png"  # Assuming you have a knife image
+
+# Start the game
+label start:
+    # Play the initial background music
+    play music "audio/#1.mp3" fadein 2.0
+    # Set the forest as the starting background
+    scene Forest
+    show Feather at center  # Position Feather at the center (default positioning)
+    # Game title and introduction
+    n "Welcome to the Adventure Game!"
+    # Ask for the player's name
+    n "Welcome, explorer! Before we begin, what is your name?"
+    $ player_name = renpy.input("Enter your name:")
+    $ player_name = player_name.strip()
+
+    # Default to "Explorer" if no name is entered
+    if player_name == "":
+        $ player_name = "Explorer"
+
+    # Show Explorer image after name input
+    show Explorer at left
+    n "Nice to meet you, [player_name]! Now, choose the mode you want to play."
+    menu:
+        "Easy Mode":
+            $ difficulty = "easy"
+            n "You have chosen Easy Mode. Good luck!"
+        "Hard Mode":
+            $ difficulty = "hard"
+            n "You have chosen Hard Mode. Brace yourself!"
+
+    # Hide Explorer after the choice
+    hide Explorer
+
+    # Proceed to the story
+    jump story_start
+
+label story_start:
+    # Narrator introduction
+    n "This is a story about an explorer named Steve Irwin (no relation) on a quest to discover a new animal species. Our story takes place in a mysterious forest."
+    s "G'day, [player_name]! It's great to have you with me on this adventure. We've got a lot of ground to cover, so let’s get started!"
+
+    # Scene 1: The River
+    scene PassingRiver
+    n "Steve approaches a wide river, teeming with crocodiles lurking just beneath the surface."
+    s "[player_name], look at all those crocs! If we want to cross, we need to solve this puzzle to build a bridge. Get it wrong, and we’ll be croco-snacks!"
+    stop music
+    play music "audio/#2.mp3" fadein 1.0
+    n "Here's the question: What is 20 x 30 - 120 + 5?"
+
+    if difficulty == "easy":
+        menu:
+            "485":
+                scene Passing_Bridge
+                s "That’s the right answer. Let’s build the bridge and cross safely."
+            "150":
+                jump bad_ending
+    elif difficulty == "hard":
+        n "Type the correct answer below:"
+        $ answer1 = renpy.input("Answer:")
+        if answer1.strip() == "485":
+            scene Passing_Bridge
+            s "That’s the right answer. Let’s build the bridge and cross safely."
+        else:
+            jump bad_ending
+    stop music
+    play music "audio/#1.mp3" fadein 1.0
+
+    # Scene 2: The Anaconda
+    scene Forest
+    show Knife at left  # Show knife on the left side
+    show Anaconda at right  # Show anaconda on the right side
+    n "Deeper in the forest, Steve suddenly finds himself caught by an anaconda!"
+    s "[player_name]! This snake’s got a tight grip on me! Quick, help me cut myself free by solving this puzzle!"
+    stop music
+    play music "audio/#2.mp3" fadein 1.0
+    n "Here's the question: What is log base 4(2) + log base 4(8)?"
+
+    if difficulty == "easy":
+        menu:
+            "2":
+               
+                s "Phew, that was a close one! Thanks for helping me out. Look over there—a mountain! Our mystery animal must be up there."
+            "5":
+                jump bad_ending
+    elif difficulty == "hard":
+        n "Type the correct answer below:"
+        $ answer2 = renpy.input("Answer:")
+        if answer2.strip() == "2":
+            s "Phew, that was a close one! Thanks for helping me out. Look over there—a mountain! Our mystery animal must be up there."
+        else:
+            jump bad_ending
+    stop music
+    play music "audio/#1.mp3" fadein 1.0
+
+    # Scene 3: Climbing the Mountain
+    scene Forest
+    s "[player_name], this climb’s a doozy, but nothing we can’t handle! Let’s solve this next puzzle to figure out the best path up."
+    stop music
+    play music "audio/#2.mp3" fadein 1.0
+    n "Here's the question: Find the derivative of 12x / (3 + x^2)"
+
+    if difficulty == "easy":
+        menu:
+            "36 - 12x^2 / (3 + x^2)^2":
+                s "Well done, [player_name]! We’ve made it to the top. And there it is—the most beautiful bird I’ve ever seen!"
+                scene RainbowBird
+            "24 - 10x^2 / (3 + x^2)^2":
+                jump bad_ending
+    elif difficulty == "hard":
+        n "Type the correct answer below:"
+        $ answer3 = renpy.input("Answer:")
+        if answer3.strip() == "36 - 12x^2 / (3 + x^2)^2":
+            s "Well done, [player_name]! We’ve made it to the top. And there it is—the most beautiful bird I’ve ever seen!"
+            scene RainbowBird
+        else:
+            jump bad_ending
+    stop music
+    play music "audio/#1.mp3" fadein 1.0
+
+    # Scene 4: Catching the Bird
+    scene RainbowBird
+    s "What a beauty, [player_name]! Let’s catch it, but first, solve this puzzle to figure out the best approach."
+    stop music
+    play music "audio/#2.mp3" fadein 1.0
+    n "Here's the question: Find the limit as x approaches 3 of (-x^4 + 2x^2 - 4)"
+
+    if difficulty == "easy":
+        menu:
+            "-67":
+                s "We got it! What a magnificent creature. This is the perfect conclusion to our adventure!"
+            "-80":
+                jump bad_ending
+    elif difficulty == "hard":
+        n "Type the correct answer below:"
+        $ answer4 = renpy.input("Answer:")
+        if answer4.strip() == "-67":
+            s "We got it! What a magnificent creature. This is the perfect conclusion to our adventure!"
+        else:
+            jump bad_ending
+    stop music
+    play music "audio/#3.mp3" fadein 1.0
+
+    # Ending
+    n "The adventure comes to an end. Steve bids farewell to the mysterious forest, satisfied with the discovery of a lifetime."
+
+    return
+
+# Bad ending label
+label bad_ending:
+    n "Unfortunately, [player_name], Steve’s adventure ends here. Better luck next time!"
+    return
